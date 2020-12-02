@@ -20,6 +20,8 @@
 	    }
 	}
 
+	$_SESSION['firstname']=$firstname;
+
 	$sql2="SELECT orders FROM roles where roleid=$roleid";
 	$final=$conn->query($sql2);
 	$orders='';
@@ -248,56 +250,53 @@ background-size: cover;">
 			<div class="row portfolio-wrapper">
 
 				<?php
-				$sql="select * from strategies where strategy_id in (";
-				$sql.=$orders;
-				$sql.=");";
-				echo $sql;
-					foreach ($strategies_ar AS $index => $value)
-				    {
-				    	$strategies_ar[$index] = (int)$value; 
-						// echo '<br>'.$strategies_ar[$index];
-						$sql3="select * from strategies where strategy_id=$strategies_ar[$index]";
-						$result2=$conn->query($sql3);
-						if($result2->num_rows>0)
-						{
-							while($strategyrow=$result2->fetch_assoc())
+				
+				$sql="select * from strategies where strategy_id in (".$orders.");";
+				$result2=$conn->query($sql);
+				$i=-1;
+				$strategies_map=array();
+				if($result2->num_rows>0)
+				{
+				    	// $strategies_ar[$index] = (int)$value; 
+						// // echo '<br>'.$strategies_ar[$index];
+						// $sql3="select * from strategies where strategy_id=$strategies_ar[$index]";
+
+							while($strategyrow = mysqli_fetch_array($result2))
 							{
 								$strategy_id=$strategyrow['strategy_id'];
 								$strategy_name=$strategyrow['strategy_name'];
 								$category=$strategyrow['category'];
 								$about_short=$strategyrow['about_short'];
-								$about_long=$strategyrow['about_long'];
 								$image=$strategyrow['image'];
-								$option1=$strategyrow['option1'];
-								$option2=$strategyrow['option2'];
-								$option3=$strategyrow['option3'];
-								// echo '<br>'.$strategy_id.', ';
-								// echo $strategy_name.' '.$category;
-							}
-						}
 
-					
-					$category='class="col-md-4 col-sm-6 grid-item '.$category.'"';
-					$image='src="images/portfolio/'.$image.'"';
-					// echo $category;
-					
-					echo '
-					<div '.$category.'>
-					<a href="work-single.html">
-						<div class="portfolio-item">
-							<div class="details">
-								<h4 class="title">'.$strategy_name.'</h4>
-								<span class="term">'.$about_short.'</span>
-							</div>
-							<span class="plus-icon">+</span>
-							<div class="thumb">
-								<img '.$image.' />
-								<div class="mask"></div>
-							</div>
-						</div>
-					</a>
-					</div>' ;
-				}
+								$strategies_map[$strategy_id]=$strategyrow;
+
+								$category='class="col-md-4 col-sm-6 grid-item '.$category.'"';
+								$image='src="images/portfolio/'.$image.'"';
+								$temp='"work-single.php?strategy_id='.$strategy_id.'"';
+								// echo $category;
+								
+								echo '
+								<div '.$category.'>
+								<a href='.$temp.'>
+									<div class="portfolio-item">
+										<div class="details">
+											<h4 class="title">'.$strategy_name.'</h4>
+											<span class="term">'.$about_short.'</span>
+										</div>
+										<span class="plus-icon">+</span>
+										<div class="thumb">
+											<img '.$image.' />
+											<div class="mask"></div>
+										</div>
+									</div>
+								</a>
+								</div>' ;
+
+								$i++;
+							}
+					}
+					$_SESSION['strategies_map'] = $strategies_map;
 
 				?>
 				<!-- portfolio item -->
