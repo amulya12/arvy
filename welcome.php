@@ -68,10 +68,7 @@
 
 </head>
 
-<body style="background-image: url(images/bodyback.png);
-background-repeat: no-repeat;
-background-attachment: fixed;
-background-size: cover;">
+<body onload="startTime()">
 
 <!-- preloader -->
 <div id="preloader">
@@ -125,11 +122,7 @@ background-size: cover;">
 
 				<!-- social icons -->
 					<a href="login.php" class="btn btn-default btn-lg mr-3" style="margin-left: 22%;"><i class="icon-logout"></i>Logout</a>
-					<!-- <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-					<li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
-					<li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
-					<li class="list-inline-item"><a href="#"><i class="fab fa-youtube"></i></a></li>
-					<li class="list-inline-item"><a href="#"><i class="fab fa-dribbble"></i></a></li> -->
+					<div id="time" style="padding:20px 0 0 28%; font-size: 25px; font-weight: 200;"></div>
 
 				<!-- copyright -->
 				<!-- <span class="copyright">© 2020 Bako Template</span> -->
@@ -153,10 +146,10 @@ background-size: cover;">
 
 		<!-- section about -->
 		<section id="about" class="shadow-blue white-bg padding">
-			<h3 class="section-title">About Us</h3>
-			<div class="spacer" data-height="80"></div>
-
-			<div class="row">
+			<h3 class="section-title">Picks of the week</h3>
+			<div class="spacer" data-height="30"></div>
+			<center><span style="color:#ff5959;font-size:30px">Coming soon...</span></center>
+			<!-- <div class="row">
 				<div class="col-md-3">
 					<img src="images/about.png" alt="about" />
 				</div>
@@ -173,47 +166,38 @@ background-size: cover;">
 							<p class="mb-0">Email: <span class="text-dark">hello@bako.com</span></p>
 						</div>
 					</div>
-					<!-- <a href="#" class="btn btn-default mr-3"><i class="icon-cloud-download"></i>Download CV</a> -->
 					<a href="#" class="btn btn-alt mt-2 mt-md-0 mt-xs-2"><i class="icon-envelope"></i>Hire me</a>
 				</div>
-			</div>
+			</div> -->
 		</section>
 
 
 		<!-- section facts -->
-		<section id="facts" class="shadow-dark color-white background parallax padding-50" data-image-src="images/background-1.jpg">
+		<section id="facts" class="shadow-dark color-white background parallax padding-50" data-image-src="images/hero.jpg">
 
 			<div class="row relative z-1">
-				<div class="col-md-3 col-sm-6">
+				<div class="col-md-4 col-sm-6">
 					<!-- fact item -->
 					<div class="fact-item text-center">
 						<i class="icon-like icon-circle"></i>
 						<h2 class="count">157</h2>
-						<span>Projects completed</span>
+						<span>Total <br> Strategies</span>
 					</div>
 				</div>
-				<div class="col-md-3 col-sm-6">
+				<div class="col-md-4 col-sm-6">
 					<!-- fact item -->
 					<div class="fact-item text-center">
 						<i class="icon-cup icon-circle"></i>
 						<h2 class="count">2765</h2>
-						<span>Cup of coffee</span>
+						<span>Watchlist <br> Companies</span>
 					</div>
 				</div>
-				<div class="col-md-3 col-sm-6">
+				<div class="col-md-4 col-sm-6">
 					<!-- fact item -->
 					<div class="fact-item text-center">
 						<i class="icon-emotsmile icon-circle"></i>
 						<h2 class="count">350</h2>
-						<span>Happy customers</span>
-					</div>
-				</div>
-				<div class="col-md-3 col-sm-6">
-					<!-- fact item -->
-					<div class="fact-item text-center">
-						<i class="icon-trophy icon-circle"></i>
-						<h2 class="count">29</h2>
-						<span>Awards won</span>
+						<span>Backtested <br> Companies</span>
 					</div>
 				</div>
 			</div>
@@ -271,18 +255,18 @@ background-size: cover;">
 
 								$strategies_map[$strategy_id]=$strategyrow;
 
-								$category='class="col-md-4 col-sm-6 grid-item '.$category.'"';
+								$category_class='class="col-md-4 col-sm-6 grid-item '.$category.'"';
 								$image='src="images/portfolio/'.$image.'"';
 								$temp='"work-single.php?strategy_id='.$strategy_id.'"';
 								// echo $category;
 								
 								echo '
-								<div '.$category.'>
+								<div '.$category_class.'>
 								<a href='.$temp.'>
 									<div class="portfolio-item">
 										<div class="details">
 											<h4 class="title">'.$strategy_name.'</h4>
-											<span class="term">'.$about_short.'</span>
+											<span class="term">'.$category.'</span>
 										</div>
 										<span class="plus-icon">+</span>
 										<div class="thumb">
@@ -343,7 +327,7 @@ background-size: cover;">
 						<i class="icon-phone"></i>
 						<div class="details">
 							<h5>Phone</h5>
-							<span>+44 1632 960428</span>
+							<span>+91 91540 00079</span>
 						</div>
 					</div>
 
@@ -351,7 +335,7 @@ background-size: cover;">
 						<i class="icon-envelope"></i>
 						<div class="details">
 							<h5>Email address</h5>
-							<span>rithwikvamshirv@gmail.com</span>
+							<span>arvycapital@gmail.com</span>
 						</div>
 					</div>
 			</div>
@@ -381,6 +365,34 @@ background-size: cover;">
 <script src="js/validator.js"></script>
 <script src="js/custom.js"></script>
 
+
+<script>
+    function startTime() {
+      var today = new Date();
+      var h = today.getHours();
+      var m = today.getMinutes();
+      var s = today.getSeconds();
+      m = checkTime(m);
+      s = checkTime(s);
+      document.getElementById('time').innerHTML =
+      h + ":" + m + ":" + s;
+      var t = setTimeout(startTime, 500);
+    }
+    function checkTime(i) {
+      if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+      return i;
+	}
+
+	document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+	</script>
 </body>
 
 <!-- Mirrored from pxltheme.com/html/bako/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 24 Nov 2020 10:11:46 GMT -->
